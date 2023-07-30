@@ -23,6 +23,11 @@
         "images"
       ]
     },
+    "company": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::company.company"
+    },
     "project": {
       "type": "relation",
       "relation": "oneToMany",

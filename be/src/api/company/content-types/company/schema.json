@@ -1,52 +1,40 @@
 {
-  "kind": "singleType",
-  "collectionName": "profiles",
+  "kind": "collectionType",
+  "collectionName": "companies",
   "info": {
-    "singularName": "profile",
-    "pluralName": "profiles",
-    "displayName": "Profile",
+    "singularName": "company",
+    "pluralName": "companies",
+    "displayName": "Company",
     "description": ""
   },
   "options": {
     "draftAndPublish": false
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": true
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "name": {
       "type": "string"
     },
-    "email": {
+    "period": {
       "type": "string"
     },
-    "address": {
-      "type": "string"
-    },
-    "introduce": {
-      "type": "richtext"
+    "project": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::project.project",
+      "mappedBy": "company"
     },
     "technology": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::technology.technology"
-    },
-    "cv": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "files"
-      ]
     },
     "image": {
       "type": "media",
       "multiple": false,
       "required": false,
       "allowedTypes": [
-        "videos"
+        "images"
       ]
     },
     "contents": {
