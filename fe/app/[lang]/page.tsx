@@ -24,9 +24,25 @@ const getProfile = async () : Promise<PageProps> => {
   }
   const rsProfile = await fetch(url+'/profile?populate=*',{
     headers
-  },{ next: { revalidate: 60 } }).then(((res: Response)=>res.json()));
+  }).then(((res: Response)=>res.json()));
   const profile = {};
-  Object.keys(rsProfile?.data?.attributes).map((item: string)=>profile[item] = rsProfile?.data?.attributes[item])
+  Object.keys(rsProfile?.data?.attributes).map((item: string)=>{
+    if(item === 'cv' || item === 'image' ){
+      const attrFile = rsProfile?.data?.attributes[item].data || null;
+      const file = {};
+      if(attrFile) {
+        for(const keyFile of Object.keys(attrFile?.attributes)) {
+          file[keyFile] = attrFile?.attributes[keyFile]
+        }
+        profile[item] = file
+      }else{
+        profile[item] = null
+      }
+
+    }else{
+      profile[item] = rsProfile?.data?.attributes[item]
+    }
+  })
   return {
     profile : profile || null
   }
