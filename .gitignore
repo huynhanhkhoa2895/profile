@@ -113,9 +113,11 @@ be/*.cache
 be/dist
 be/build
 be/.strapi-updater.json
+be/ecosystem.config.js
 
 .idea
 
 fe/node_modules
 fe/.next
 fe/.env
+fe/ecosystem.config.js
