@@ -28,7 +28,12 @@
     "introduce": {
       "type": "richtext"
     },
-    "technology": {
+    "technology_proficient": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::technology.technology"
+    },
+    "technology_knowledge": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::technology.technology"
