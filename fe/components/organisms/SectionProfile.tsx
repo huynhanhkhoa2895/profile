@@ -8,34 +8,36 @@ type Props = {
 }
 
 const SectionProfile = ({data}: Props) => {
-  return(
-      <section className={'h-screen bg-waving'}>
-        <div className={'h-full w-full flex items-center justify-center'}>
-          <div className={'grid grid-cols-2 gap-5'}>
-            <div className={'w-[300px] h-[300px] rounded-full overflow-hidden'}>
+  return (
+    <section className={'h-screen bg-waving'}>
+      <div className={'h-full w-full flex items-center justify-center'}>
+        <div className={'max-w-[70%] mx-auto'}>
+          <div className={'flex justify-center items-center gap-10'}>
+            <div className={'shrink-0 w-[300px] h-[300px] rounded-full overflow-hidden'}>
               {
                 data.image && (
-                    <Image
-                      src={process.env.BE_URL+data.image.url}
-                      width={data.image.width}
-                      height={data.image.height}
-                      className={'object-cover'}
-                      style={{height: 'auto'}}
-                      alt={data.image.name}
-                    />
-                  )
+                  <Image
+                    src={process.env.BE_URL + data.image.url}
+                    width={data?.image?.width || 0}
+                    height={data.image.height || 0}
+                    className={'object-cover'}
+                    style={{height: 'auto'}}
+                    alt={data.image.name}
+                  />
+                )
               }
 
             </div>
             <div className={'flex flex-col'}>
-              <Typography renderAs={'h1'} content={data.name} textSize={'2xl'} />
+              <Typography renderAs={'h1'} content={data.name} textSize={'2xl'}/>
               <Markdown className={'font-aeonik'}>
                 {data.introduce}
               </Markdown>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
   )
 }
 export default SectionProfile

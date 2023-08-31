@@ -1,49 +1,58 @@
-import Image from 'next/image'
 import SectionProfile from "@/components/organisms/SectionProfile";
-import {Profile} from "@/types/common";
 
 type PageProps = {
   profile?: any
 }
 
 export default async function Home() {
-  const rs : PageProps = await getProfile();
+  const rs: PageProps = await getProfile();
   return (
-      <main>
-        <SectionProfile data={rs.profile} />
-      </main>
+    <main>
+      <SectionProfile data={rs.profile}/>
+    </main>
 
   )
 }
 
-const getProfile = async () : Promise<PageProps> => {
+const getProfile = async (): Promise<PageProps> => {
   const token = process.env.BE_TOKEN
   const url = process.env.BE_URL_API
   const headers = {
-    'Authorization': 'Bearer '+token
+    'Authorization': 'Bearer ' + token
   }
-  const rsProfile = await fetch(url+'/profile?populate=*',{
+  const rsProfile = await fetch(url + '/profile?populate=*', {
     headers
-  }).then(((res: Response)=>res.json()));
-  const profile = {};
-  Object.keys(rsProfile?.data?.attributes).map((item: string)=>{
-    if(item === 'cv' || item === 'image' ){
+  }).then(((res: Response) => res.json()));
+  const rsTechnologies = await fetch(url + '/technologies?populate=*', {
+    headers
+  }).then(((res: Response) => res.json()));
+  const profile: any = {};
+  console.log("test", {
+    ...rsProfile?.data?.attributes,
+    ...rsTechnologies?.data?.attributes
+  })
+  Object.keys({
+    ...rsProfile?.data?.attributes,
+    ...rsTechnologies?.data?.attributes
+  }).map((item: string) => {
+    if (item === 'cv' || item === 'image') {
       const attrFile = rsProfile?.data?.attributes[item].data || null;
-      const file = {};
-      if(attrFile) {
-        for(const keyFile of Object.keys(attrFile?.attributes)) {
+      const file: any = {};
+
+      if (attrFile) {
+        for (const keyFile of Object.keys(attrFile?.attributes)) {
           file[keyFile] = attrFile?.attributes[keyFile]
         }
         profile[item] = file
-      }else{
+      } else {
         profile[item] = null
       }
 
-    }else{
+    } else {
       profile[item] = rsProfile?.data?.attributes[item]
     }
   })
   return {
-    profile : profile || null
+    profile: profile || null
   }
 }

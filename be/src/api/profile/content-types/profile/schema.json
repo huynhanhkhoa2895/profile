@@ -30,7 +30,7 @@
     },
     "technology": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::technology.technology"
     },
     "cv": {
