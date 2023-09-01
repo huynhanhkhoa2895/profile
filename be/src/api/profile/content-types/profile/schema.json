@@ -19,6 +19,12 @@
     "name": {
       "type": "string"
     },
+    "experience": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
     "email": {
       "type": "string"
     },
