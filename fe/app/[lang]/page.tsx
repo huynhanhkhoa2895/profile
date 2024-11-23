@@ -26,11 +26,13 @@ const getProfile = async (): Promise<PageProps> => {
       headers,
       cache: 'no-cache',
     },
-  ).then((res: Response) => res.json());
+  )
+    .then((res: Response) => res.json())
+    .catch((e) => {
+      console.log(e);
+      return null;
+    });
   const profile: any = {};
-  console.log('test', {
-    ...rsProfile?.data?.attributes,
-  });
   Object.keys({
     ...rsProfile?.data?.attributes,
   }).map((item: string) => {
