@@ -1,6 +1,9 @@
-import { getCookie as cookieGet } from 'cookies-next';
 import { NextResponse } from 'next/server';
-
+export function getCookies(name: string) {
+  const value = `; ${document.cookie}`;
+  const parts: any = value.split(`; ${name}=`);
+  if (parts.length === 2) return (parts || []).pop().split(';').shift();
+}
 export const scrollToTarget = (id: string, fixed: boolean) => {
   const targetEl = document.querySelector(`#${id}`) as HTMLElement | null;
 
@@ -8,7 +11,7 @@ export const scrollToTarget = (id: string, fixed: boolean) => {
     if (!fixed) {
       window.scrollTo({
         top: targetEl.offsetTop,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     } else {
       const _header = document.querySelector(`#header`) as HTMLElement | null;
@@ -17,7 +20,7 @@ export const scrollToTarget = (id: string, fixed: boolean) => {
 
       window.scrollTo({
         top: _top,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   }
@@ -50,10 +53,10 @@ export const isValidHttpUrl = (url: string) => {
 
 export const parseLinkToLocale = (
   link: string,
-  lang?: string | boolean | null
+  lang?: string | boolean | null,
 ) => {
   if (!lang || lang === '') {
-    lang = cookieGet('i18next' as any) || '';
+    lang = getCookies('i18next' as any) || '';
   }
   if (!lang) {
     lang = '';
@@ -64,22 +67,22 @@ export const validateGoogleRecaptcha = async (body: any) => {
   return fetch('https://www.google.com/recaptcha/api/siteverify', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: `secret=${process.env.NEXT_RECAPTCHA_SECRETKEY}&response=${body.token}`
+    body: `secret=${process.env.NEXT_RECAPTCHA_SECRETKEY}&response=${body.token}`,
   })
-    .then(reCaptchaRes => reCaptchaRes.json())
-    .then(reCaptchaRes => {
+    .then((reCaptchaRes) => reCaptchaRes.json())
+    .then((reCaptchaRes) => {
       if (reCaptchaRes?.score > 0.5) {
         return { status: true };
       } else {
         return NextResponse.json({
           status: false,
-          message: 'Google ReCaptcha Failure'
+          message: 'Google ReCaptcha Failure',
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 };
